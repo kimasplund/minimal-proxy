@@ -1,0 +1,15 @@
+.git
+.gitignore
+.mcp
+README.md
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+certs/
+*.cert
+*.key 

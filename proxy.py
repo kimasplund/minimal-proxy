@@ -15,8 +15,12 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.backends import default_backend
 
-CERT_FILE = 'server.cert'
-KEY_FILE = 'server.key'
+# Create certs directory if it doesn't exist
+CERTS_DIR = 'certs'
+os.makedirs(CERTS_DIR, exist_ok=True)
+
+CERT_FILE = os.path.join(CERTS_DIR, 'server.cert')
+KEY_FILE = os.path.join(CERTS_DIR, 'server.key')
 
 def generate_cert_and_key():
     key = rsa.generate_private_key(

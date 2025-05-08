@@ -1,3 +1,5 @@
 .venv
 server.cert
 server.key
+certs/
+.mcp

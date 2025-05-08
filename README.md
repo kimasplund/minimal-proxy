@@ -1,32 +1,60 @@
+# Minimal Proxy
 
-# Minimalistic Python HTTPS Proxy
+A minimal HTTPS proxy that forwards requests to a target HTTP server.
 
-A minimalistic Python HTTPS proxy that forwards requests to an HTTP-only server, enabling modern systems to communicate with older devices that only support HTTP.
+## Features
 
-## Installation
-
-Clone the repository and install the required dependencies:
-
-```bash
-git clone https://github.com/kimasplund/minimal-proxy.git 
-cd minimal-proxy
-pip install -r requirements.txt
-```
+- HTTPS server with auto-generated SSL certificate
+- Proxies HTTP requests to a target server
+- Supports GET and POST methods
+- Docker containerized for easy deployment
+- Uses Python 3.13 Alpine for a minimal footprint
 
 ## Usage
 
-Run the proxy server by specifying the target HTTP host:
+### Direct Python Usage
 
 ```bash
-python3 proxy.py <target_http_host>
+# Install requirements
+pip install -r requirements.txt
+
+# Run the proxy (replace example.com with your target)
+python proxy.py example.com
 ```
 
-### Running in the Background
-
-To run the proxy server in the background with no logging:
+### Docker Usage
 
 ```bash
-nohup python3 proxy.py <target_http_host> > /dev/null 2>&1 &
+# Build and start the Docker container
+docker-compose up -d
+
+# The proxy will target 192.168.14.50 by default
 ```
 
-Replace `<target_http_host>` with the IP address or hostname of the server you want to forward requests to.
+### Customizing Target IP
+
+You can change the target IP in docker-compose.yml:
+
+```yaml
+environment:
+  - TARGET_HOST=your-target-ip-or-hostname
+```
+
+### Certificates
+
+Certificates are generated automatically on first run and stored in the `certs` directory. The Docker container mounts this directory as a volume to persist certificates between restarts.
+
+## Testing
+
+The repository includes a testing framework to verify the proxy connection:
+
+```bash
+# Run tests using the test Docker Compose configuration
+docker-compose -f docker-compose.test.yml up --build
+
+```
+
+The test script will:
+1. Send GET and POST requests to the proxy
+2. Verify connections to the target IP
+3. Report success or failure
